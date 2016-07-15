@@ -1,56 +1,60 @@
-from wifi import Cell,Scheme
+from wifi import Cell
 import os
 from normalize_output import normalize_output
 
+
 class show_networks():
 
-	def __init__(self):
-		self.req_var = True
-		self.opt_var = False
-		self.req_variables = ["-i"]
+    def __init__(self):
+        self.req_var = True
+        self.opt_var = False
+        self.req_variables = ["-i"]
 
-	def help(self):
-		hlp =("\nDescription:\n"
-			"############\n"
-			"\nCommand will show all near by wifi networks\n"
-			"\nUsage:\n"
-			"############\n"
-			"\n'show-networks -i <interface>'\n")
+    def help(self):
+        hlp = (
+            "\nDescription:\n"
+            "############\n"
+            "\nCommand will show all near by wifi networks\n"
+            "\nUsage:\n"
+            "############\n"
+            "\n'show-networks -i <interface>'\n"
+        )
 
-		return hlp
+        return hlp
 
-	def show_networks(self,var):
+    def show_networks(self, var):
 
-		if "-i" in var:
-			#make sure wifi is in managed mode
-			try:
-				os.system("sudo ifconfig "+ var["-i"] + " down")
-				os.system("iwconfig "+ var["-i"] + " mode managed")
-				os.system("sudo ifconfig "+ var["-i"] + " up")
-			except Exception, e:
-				pass
-			networks_info = []
-			try:
-				wifi_list = Cell.all(var["-i"])
-				for wifi in wifi_list:
-					network_info = {}
-					network_info["name"] = wifi.ssid
-					network_info["address"] = wifi.address
-					network_info["channel"] = wifi.channel
-					if wifi.encrypted == 1:
-						network_info["encrypted"] = "Yes"
-						network_info["type"] = wifi.encryption_type
-					else:
-						network_info["encrypted"] = "No"
-						network_info["type"] = "N/A"
-					network_info["signal"] = wifi.signal
+        if "-i" in var:
+            # make sure wifi is in managed mode
+            try:
+                os.system("sudo ifconfig " + var["-i"] + " down")
+                os.system("iwconfig " + var["-i"] + " mode managed")
+                os.system("sudo ifconfig " + var["-i"] + " up")
+            except Exception:
+                return "Error: could not change interface settings"
+            networks_info = []
+            try:
+                wifi_list = Cell.all(var["-i"])
+                for wifi in wifi_list:
+                    network_info = {}
+                    network_info["name"] = wifi.ssid
+                    network_info["address"] = wifi.address
+                    network_info["channel"] = wifi.channel
+                    if wifi.encrypted == 1:
+                        network_info["encrypted"] = "Yes"
+                        network_info["type"] = wifi.encryption_type
+                    else:
+                        network_info["encrypted"] = "No"
+                        network_info["type"] = "N/A"
+                    network_info["signal"] = wifi.signal
 
-					networks_info.append(network_info)
-				norm_class = normalize_output()
-				return norm_class.normalize_wifi_table(networks_info)
+                    networks_info.append(network_info)
+                norm_class = normalize_output()
+                return norm_class.normalize_wifi_table(networks_info)
 
-			except Exception, e:
-				return "Cannot show networks on interface " + "'" + var["-i"] + "'"
+            except Exception:
+                return "Cannot show networks on interface "
+                "'" + var["-i"] + "'"
 
-		else:
-			return "Error: Need to specifiy iface to listen on"
+        else:
+            return "Error: Need to specifiy iface to listen on"

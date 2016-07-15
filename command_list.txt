@@ -1,11 +1,6 @@
 show-netifaces
-
 show-networks
-
 show-netstats
-
 netspoof
-
 ls
-
 help
