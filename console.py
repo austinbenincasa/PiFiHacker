@@ -15,16 +15,33 @@ def main():
         readline.read_init_file(cmd_history)
 
     while True:
-        cmd = raw_input(colored.green("PiHacker:~$ "))
+        cmd = raw_input(colored.green("PiFiHacker:~$ "))
         if cmd:
             output = instance.proccess_command(cmd)
             if output is not None:
                 readline.write_history_file(cmd_history)
                 print(output)
         else:
-            cmd = raw_input(colored.green("PiHacker:~$ "))
+            cmd = raw_input(colored.green("PiFiHacker:~$ "))
 
 if __name__ == '__main__':
-    puts(colored.red("Welcome to PiHacker!"))
+    logo = (
+        "\n\n\t########  #### ######## #### ##     ##"
+        "\t    ###     ######  ##    ## ######## ########\n"
+        "\t##     ##  ##  ##        ##  ##     ##"
+        "\t   ## ##   ##    ## ##   ##  ##       ##     ##\n"
+        "\t##     ##  ##  ##        ##  ##     ##"
+        "\t  ##   ##  ##       ##  ##   ##       ##     ##\n"
+        "\t########   ##  ######    ##  #########"
+        "\t ##     ## ##       #####    ######   ########\n"
+        "\t##         ##  ##        ##  ##     ##"
+        "\t ######### ##       ##  ##   ##       ##   ##\n"
+        "\t##         ##  ##        ##  ##     ##"
+        "\t ##     ## ##    ## ##   ##  ##       ##    ##\n"
+        "\t##        #### ##       #### ##     ##"
+        "\t ##     ##  ######  ##    ## ######## ##     ##\n\n"
+        "\tAustin Benincasa\tVersion: 1.0a" + "\t\t" + u"\u00a9" + "2016"
+    )
+    puts(colored.yellow(logo))
     puts()
     main()

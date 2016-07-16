@@ -1,5 +1,6 @@
 
 from normalize_output import normalize_output
+from clint.textui import colored
 import importlib
 import sys
 
@@ -82,14 +83,15 @@ class command():
                         " is a invalid command, use ls " +
                         "to list avaliable commands"
                     )
-                    return error
+                    return colored.red(error)
                 elif instance.req_var:
                         error = (
                             "'" + input_list[0] + "'" +
                             " requires variables, use 'help <command>'" +
                             " for usage"
                         )
-                        return error
+                        return colored.red(error)
+
                 run = getattr(instance, cmd)
                 output = run(pass_var)
                 return output
@@ -103,7 +105,7 @@ class command():
                     "'" + input_list[1] + "'" +
                     " is a invalid command, use ls to list avaliable commands"
                 )
-                return error
+                return colored.red(error)
 
             elif input_list[0] in command_dict:
 
@@ -133,7 +135,8 @@ class command():
                                         " is not a valid flag," +
                                         " use 'help <command>' for usage"
                                     )
-                                    return error
+                                    return colored.red(error)
+
                     elif not instance.opt_var:
                         req_variables = instance.req_variables
                         # get variables
@@ -155,7 +158,8 @@ class command():
                                         " is not a valid flag," +
                                         " use 'help <command>' for usage"
                                     )
-                                    return error
+                                    return colored.red(error)
+
                     run = getattr(instance, cmd)
                     output = run(pass_var)
                     return output
@@ -179,7 +183,7 @@ class command():
                                     " is not a valid flag," +
                                     " use 'help <command>' for usage"
                                 )
-                                return error
+                                return colored.red(error)
 
                     # from here command class will handle either empty
                     # dict or dict with flags
@@ -193,7 +197,7 @@ class command():
                     " is a invalid command, "
                     "use ls to list avaliable commands"
                 )
-                return error
+                return colored.red(error)
 
     def class_instance(self, cmd):
         try:
