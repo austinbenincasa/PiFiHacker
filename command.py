@@ -77,11 +77,19 @@ class command():
                 cmd = input_list[0].replace("-", "_")
                 instance = self.class_instance(cmd)
                 if instance is None:
-                    return "'" + input_list[0] + "'"
-                    " is a invalid command, use ls to list avaliable commands"
+                    error = (
+                        "'" + input_list[0] + "'"
+                        " is a invalid command, use ls " +
+                        "to list avaliable commands"
+                    )
+                    return error
                 elif instance.req_var:
-                        return "'" + input_list[0] + "'"
-                        " requires variables, use 'help <command>' for usage"
+                        error = (
+                            "'" + input_list[0] + "'" +
+                            " requires variables, use 'help <command>'" +
+                            " for usage"
+                        )
+                        return error
                 run = getattr(instance, cmd)
                 output = run(pass_var)
                 return output
@@ -91,8 +99,11 @@ class command():
             if input_list[0] == "help":
                 if input_list[1] in command_dict:
                     return self.command_help(command_dict.get(input_list[1]))
-                return "'" + input_list[1] + "'"
-                " is a invalid command, use ls to list avaliable commands"
+                error = (
+                    "'" + input_list[1] + "'" +
+                    " is a invalid command, use ls to list avaliable commands"
+                )
+                return error
 
             elif input_list[0] in command_dict:
 
@@ -117,9 +128,12 @@ class command():
                                     pass_var[var_val] = el
                                     var_val = ""
                                 elif el != "":
-                                    return "'" + el + "'"
-                                    " is not a valid flag,"
-                                    " use 'help <command>' for usage"
+                                    error = (
+                                        "'" + el + "'" +
+                                        " is not a valid flag," +
+                                        " use 'help <command>' for usage"
+                                    )
+                                    return error
                     elif not instance.opt_var:
                         req_variables = instance.req_variables
                         # get variables
@@ -136,10 +150,12 @@ class command():
                                     pass_var[var_val] = el
                                     var_val = ""
                                 elif el != "":
-                                    return "'" + el + "'"
-                                    " is not a valid flag,"
-                                    " use 'help <command>' for usage"
-
+                                    error = (
+                                        "'" + el + "'" +
+                                        " is not a valid flag," +
+                                        " use 'help <command>' for usage"
+                                    )
+                                    return error
                     run = getattr(instance, cmd)
                     output = run(pass_var)
                     return output
@@ -158,9 +174,12 @@ class command():
                                 pass_var[var_val] = el
                                 var_val = ""
                             elif el != "":
-                                return "'" + el + "'"
-                                " is not a valid flag, "
-                                "use 'help <command>' for usage"
+                                error = (
+                                    "'" + el + "'" +
+                                    " is not a valid flag," +
+                                    " use 'help <command>' for usage"
+                                )
+                                return error
 
                     # from here command class will handle either empty
                     # dict or dict with flags
@@ -169,9 +188,12 @@ class command():
                     return output
 
             else:
-                return "'" + input + "'"
-                " is a invalid command, "
-                "use ls to list avaliable commands"
+                error = (
+                    "'" + input + "'"
+                    " is a invalid command, "
+                    "use ls to list avaliable commands"
+                )
+                return error
 
     def class_instance(self, cmd):
         try:

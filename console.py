@@ -1,27 +1,27 @@
 from clint.textui import colored, puts
 from command import command
-from tab_completer import tab_completer
 import readline
+
+cmd_history = "cmd_history"
 
 
 def main():
     instance = command()
-    cmd_list = instance.command_list()
-
-    t = tab_completer()
-    t.createListCompleter(cmd_list)
-
-    readline.parse_and_bind("tab: complete")
+    # setting up command history 
+    try:
+        readline.read_history_file(cmd_history)
+    except Exception:
+        open("cmd_history", "a")
+        readline.read_init_file(cmd_history)
 
     while True:
-        readline.set_completer(t.listCompleter)
         cmd = raw_input(colored.green("PiHacker:~$ "))
         if cmd:
             output = instance.proccess_command(cmd)
             if output is not None:
+                readline.write_history_file(cmd_history)
                 print(output)
         else:
-            readline.set_completer(t.listCompleter)
             cmd = raw_input(colored.green("PiHacker:~$ "))
 
 if __name__ == '__main__':

@@ -1,9 +1,8 @@
+from login_server import login_server
+from scapy.all import *
 import os
 import logging
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
-from scapy.all import *
-from normalize_output import normalize_output
-from login_server import login_server
 
 
 class netspoof():
@@ -34,7 +33,6 @@ class netspoof():
             try:
                 # self.deauthnet(var["-i"],var["-b"])
                 self.createAP(var["-s"], var["-i"], var["-c"])
-                # self.createAP(var["-n"],var["-i"])
                 # self.start_server()
             except Exception:
                 return "Cannot spoof the network " + "'" + var["-s"] + "'"
