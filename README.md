@@ -1,4 +1,4 @@
-# PiHacker
+# PiFiHacker
 
 Is a python 2.7 CLI program developed to penetrate wifi networks. The program has currently only been tested on Ubuntu 16.04 using python 2.7. May work on other linux distros but is not compatiable with Windows.
 
