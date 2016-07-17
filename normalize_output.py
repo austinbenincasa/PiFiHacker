@@ -44,3 +44,11 @@ class normalize_output():
                 el["name"],
                 el["ssid"],
                 el["packets"]))
+
+    def normalize_network_map(self, input):
+        print(colored.blue("{:<20} {:<20}".format(
+            'IP Address', 'Mac Address')))
+        for el in input:
+            print ("{:<20} {:<20}".format(
+                el[0],
+                el[1]))

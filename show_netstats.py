@@ -1,7 +1,7 @@
-from scapy.all import *
 from normalize_output import normalize_output
 import logging
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+from scapy.all import *
 
 
 class show_netstats():

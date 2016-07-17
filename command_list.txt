@@ -1,6 +1,7 @@
 show-netifaces
 show-networks
 show-netstats
+map-network
 netspoof
 ls
 help
