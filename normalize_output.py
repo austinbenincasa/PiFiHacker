@@ -52,3 +52,11 @@ class normalize_output():
             print ("{:<20} {:<20}".format(
                 el[0],
                 el[1]))
+
+    def show_hacked_data(self, input):
+        print(colored.blue("{:<25} {:<25}".format(
+            'Network', 'Password')))
+        for key, val in input.items():
+            print ("{:<25} {:<25}".format(
+                key,
+                val))
