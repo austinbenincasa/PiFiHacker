@@ -23,7 +23,7 @@ class wifi_data():
         )
         return hlp
 
-    def ap_data(self, var):
+    def wifi_data(self, var):
         norm_class = normalize_output()
         # add new ap data to file
         if "-n" and "-p" in var:
