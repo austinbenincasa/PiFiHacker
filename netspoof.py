@@ -11,8 +11,6 @@ class netspoof():
         self.req_var = True
         self.opt_var = False
         self.req_variables = ["-i", "-s", "-c"]
-        # self.deauth = True
-        # self.instance = login_server()
 
     def help(self):
         hlp = (
@@ -29,7 +27,6 @@ class netspoof():
         return hlp
 
     def netspoof(self, var):
-        self.start_server()
         if "-s" in var and "-i" in var and "-c" in var:
             try:
                 # self.deauthnet(var["-i"],var["-b"])
@@ -38,7 +35,7 @@ class netspoof():
             except Exception:
                 return "Cannot spoof the network " + "'" + var["-s"] + "'"
         else:
-            return "Error: Need to specifiy network to spoof"
+            return "Error: Need to specifiy network to spoof" and e
 
     def createAP(self, ssid, iface, channel):
 
@@ -168,6 +165,7 @@ class netspoof():
 
     def start_server(self):
         instance = login_server()
+        instance.login_server()
 
     def checklibs():
         return
