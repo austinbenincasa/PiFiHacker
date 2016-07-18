@@ -74,7 +74,6 @@ class command():
                 return self.show_commands(command_dict)
 
             else:
-
                 cmd = input_list[0].replace("-", "_")
                 instance = self.class_instance(cmd)
                 if instance is None:
@@ -111,7 +110,14 @@ class command():
 
                 cmd = input_list[0].replace("-", "_")
                 instance = self.class_instance(cmd)
-
+                # check is error in command
+                if instance is None:
+                    error = (
+                        "'" + input_list[0] + "'"
+                        " command has a bug in it." +
+                        " Please report this to the author"
+                    )
+                    return colored.red(error)
                 # check if command needs variables
                 if instance.req_var:
                     req_variables = instance.req_variables

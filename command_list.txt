@@ -3,5 +3,6 @@ show-networks
 show-netstats
 map-network
 netspoof
+ap-data
 ls
 help
