@@ -1,8 +1,8 @@
 from login_server import login_server
-from scapy.all import *
 import os
 import logging
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+from scapy.all import *
 
 
 class netspoof():
@@ -29,11 +29,12 @@ class netspoof():
         return hlp
 
     def netspoof(self, var):
+        self.start_server()
         if "-s" in var and "-i" in var and "-c" in var:
             try:
                 # self.deauthnet(var["-i"],var["-b"])
-                self.createAP(var["-s"], var["-i"], var["-c"])
-                # self.start_server()
+                # self.createAP(var["-s"], var["-i"], var["-c"])
+                self.start_server()
             except Exception:
                 return "Cannot spoof the network " + "'" + var["-s"] + "'"
         else:
@@ -164,6 +165,9 @@ class netspoof():
     def stopAP(self):
         os.system("service hostapd stop")
         os.system("service udhcpd stop")
+
+    def start_server(self):
+        instance = login_server()
 
     def checklibs():
         return
