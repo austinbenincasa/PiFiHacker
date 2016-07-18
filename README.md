@@ -22,3 +22,8 @@ Is a python 2.7 CLI program developed to penetrate wifi networks. The program ha
 ### Required Hardware:
 - 2 Wifi cards capable of packet injection and AP mode
 - Software tested with 2 Alfa AWUSO36NH Cards
+
+### Hints:
+If your wifi cards are showing up as long names add:
+- SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="card mac address", NAME="some name"
+to the file /etc/udev/rules.d/10-network.rules than reboot the system 
