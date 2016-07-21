@@ -151,8 +151,7 @@ class command():
                             if el != input_list[0]:
                                 # is a flag
                                 if (
-                                    "-" in el and el in req_variables or
-                                    "-" in el and el in opt_variables
+                                    "-" in el and el in req_variables
                                 ):
                                     var_val = el
                                 elif var_val != "":
