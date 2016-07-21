@@ -62,15 +62,14 @@ class login_server(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write("Login Successful!")
 
-    def login_server():
-        try:
-            # Create a web server and define the handler to manage the
-            # incoming request
-            server = HTTPServer(('', PORT_NUMBER), login_server)
-            print'Started Login server on port ', PORT_NUMBER
-            print("Waiting for response...")
-            # Wait forever for incoming htto requests
-            server.serve_forever()
-        except KeyboardInterrupt:
-            print('Shutting down the web server')
-            server.shutdown()
+try:
+    # Create a web server and define the handler to manage the
+    # incoming request
+    server = HTTPServer(('', PORT_NUMBER), login_server)
+    print'Started Login server on port ', PORT_NUMBER
+    print("Waiting for response...")
+    # Wait forever for incoming htto requests
+    server.serve_forever()
+except KeyboardInterrupt:
+    print('Shutting down the web server')
+    server.shutdown()
