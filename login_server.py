@@ -2,7 +2,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from os import curdir, sep
 import cgi
 
-PORT_NUMBER = 8080
+PORT_NUMBER = 80
 
 # This class will handles any incoming request from
 # the browser

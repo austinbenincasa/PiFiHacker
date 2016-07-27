@@ -1,19 +1,28 @@
 from clint.textui import colored, puts
 from command import command
+from setup import setup
 import readline
+import os
 
 cmd_history = "cmd_history"
 
 
 def main():
-    instance = command()
     # setting up command history
     try:
         readline.read_history_file(cmd_history)
     except Exception:
         open("cmd_history", "a")
         readline.read_init_file(cmd_history)
+    if os.path.isfile("config.txt"):
+        pass
+    else:
+        puts(colored.cyan("Setting up PiFiHacker for you..."))
+        instance = setup()
+        instance.setup()
+        puts(colored.cyan("PiFiHacker has been successfully setup"))
 
+    instance = command()
     while True:
         cmd = raw_input(colored.green("PiFiHacker:~$ "))
         if cmd:
