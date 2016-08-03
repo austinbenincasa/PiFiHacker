@@ -1,8 +1,10 @@
+access-point
+deauth-network
+map-network
+netspoof
 show-netifaces
 show-networks
 show-netstats
-map-network
-netspoof
 wifi-data
 ls
 help
