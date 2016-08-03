@@ -12,7 +12,7 @@ class access_point():
             "\nDescription:\n"
             "############\n"
             "\nCommand will create an open wifi network in which unsuspecting\n"
-            " victims traffic will me monitored.\n"
+            "victims internet traffic can be monitored.\n"
             "\nUsage:\n"
             "############\n"
             "\n'access-point -i <interface> -b <interface to bridge> -n <name of network>'\n"
