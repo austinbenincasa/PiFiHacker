@@ -12,7 +12,7 @@ class login_server(BaseHTTPRequestHandler):
     # Handler for the GET requests
 
     def do_GET(self):
-        if self.path == "/":
+        if self.path:
             self.path = "/index.html"
         try:
             # Check the file extension required and
@@ -65,7 +65,7 @@ class login_server(BaseHTTPRequestHandler):
 try:
     # Create a web server and define the handler to manage the
     # incoming request
-    server = HTTPServer(('', PORT_NUMBER), login_server)
+    server = HTTPServer(("10.0.0.2", PORT_NUMBER), login_server)
     print'Started Login server on port ', PORT_NUMBER
     print("Waiting for response...")
     # Wait forever for incoming htto requests

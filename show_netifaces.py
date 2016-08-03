@@ -6,8 +6,7 @@ class show_netifaces():
 
     def __init__(self):
         self.req_var = False
-        self.opt_var = True
-        self.opt_variables = ["-i"]
+        self.opt_var = False
 
     def help(self):
         hlp = (
@@ -20,8 +19,7 @@ class show_netifaces():
             "interfaces details\n"
             "\nUsage:\n"
             "############\n"
-            "\n'show-netifaces'\n"
-            "'show-netifaces -i <interface>'\n")
+            "\n'show-netifaces'\n")
         return hlp
 
     def show_netifaces(self, var):
@@ -33,8 +31,11 @@ class show_netifaces():
             try:
                 addrs = netifaces.ifaddresses(var["-i"])
                 return norm_class.normalize_json_list(addrs[netifaces.AF_INET])
-            except Exception:
-                return "'" + var["-i"] + "'" + " is not a valid interface"
+            except Exception,e:
+                output = []
+                output.append("1")
+                output.append("'" + var["-i"] + "'" + " is not a valid interface")
+                return output
 
         # get all netifaces
         else:

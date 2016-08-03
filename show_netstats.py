@@ -37,8 +37,11 @@ class show_netstats():
                 os.system("sudo ifconfig " + var["-i"] + " down")
                 os.system("iwconfig " + var["-i"] + " mode monitor")
                 os.system("sudo ifconfig " + var["-i"] + " up")
-            except Exception, e:
-                return e
+            except Exception:
+                output = []
+                output.append("1")
+                output.append("Error: Could put interface into Monitor Mode")
+                return error
             try:
                 pkts = 1000
                 if "-c" in var:
@@ -47,9 +50,15 @@ class show_netstats():
                 sniff(iface=var["-i"], prn=self.PacketHandler, count=pkts)
                 return norm_class.normalize_netstats_table(self.ap_list)
             except Exception, e:
-                return "Error: Could not analyze networks" and e
+                output = []
+                output.append("1")
+                output.append("Error: Could not analyze networks")
+                return error
         else:
-            return "Error: Need to specifiy interface to analyze"
+            output = []
+            output.append("1")
+            output.append("Error: Need to specifiy interface to analyze")
+            return output
 
     def PacketHandler(self, pkt):
         present = False

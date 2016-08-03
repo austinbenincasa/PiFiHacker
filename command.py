@@ -8,6 +8,7 @@ import sys
 class command():
 
     def __init__(self):
+        self.output = []
         pass
 
     def command_list(self):
@@ -40,9 +41,15 @@ class command():
 
     # outputs command help
     def command_help(self, cmd):
+        self.output = []
         instance = self.class_instance(cmd)
-        run = getattr(instance, "help")
-        return run()
+        try:
+            run = getattr(instance, "help")
+            return run()
+        except Exception:
+            self.output.append("1")
+            self.output.append("Error: Not a valid help command")
+            return self.output
 
     # show all avaliable commands on CLI
     def show_commands(self, cmds):
@@ -54,7 +61,7 @@ class command():
 
     # parses CLI input and proccess it
     def proccess_command(self, input):
-
+        self.output = []
         command_dict = self.get_command_list()
         input_list = input.split(" ")
         pass_var = {}
@@ -82,21 +89,26 @@ class command():
                         " is a invalid command, use ls " +
                         "to list avaliable commands"
                     )
-                    return colored.red(error)
+                    self.output.append("1")
+                    self.output.append(error)
+                    return self.output
+
                 elif instance.req_var:
                         error = (
                             "'" + input_list[0] + "'" +
                             " requires variables, use 'help <command>'" +
                             " for usage"
                         )
-                        return colored.red(error)
+                        self.output.append("1")
+                        self.output.append(error)
+                        return self.output 
 
                 run = getattr(instance, cmd)
                 output = run(pass_var)
                 return output
 
         elif len(input_list) >= 1:
-
+            
             if input_list[0] == "help":
                 if input_list[1] in command_dict:
                     return self.command_help(command_dict.get(input_list[1]))
@@ -104,7 +116,9 @@ class command():
                     "'" + input_list[1] + "'" +
                     " is a invalid command, use ls to list avaliable commands"
                 )
-                return colored.red(error)
+                self.output.append("1")
+                self.output.append(error)
+                return self.output 
 
             elif input_list[0] in command_dict:
 
@@ -117,7 +131,9 @@ class command():
                         " command has a bug in it." +
                         " Please report this to the author"
                     )
-                    return colored.red(error)
+                    self.output.append("1")
+                    self.output.append(error)
+                    return self.output 
                 # check if command needs variables
                 if instance.req_var:
                     req_variables = instance.req_variables
@@ -141,8 +157,10 @@ class command():
                                         " is not a valid flag," +
                                         " use 'help <command>' for usage"
                                     )
-                                    return colored.red(error)
-
+                                    self.output.append("1")
+                                    self.output.append(error)
+                                    return self.output 
+                                    
                     elif not instance.opt_var:
                         req_variables = instance.req_variables
                         # get variables
@@ -163,8 +181,10 @@ class command():
                                         " is not a valid flag," +
                                         " use 'help <command>' for usage"
                                     )
-                                    return colored.red(error)
-
+                                    self.output.append("1")
+                                    self.output.append(error)
+                                    return self.output 
+                
                     run = getattr(instance, cmd)
                     output = run(pass_var)
                     return output
@@ -188,7 +208,9 @@ class command():
                                     " is not a valid flag," +
                                     " use 'help <command>' for usage"
                                 )
-                                return colored.red(error)
+                                self.output.append("1")
+                                self.output.append(error)
+                                return self.output 
 
                     # from here command class will handle either empty
                     # dict or dict with flags
@@ -202,7 +224,10 @@ class command():
                     " is a invalid command, "
                     "use ls to list avaliable commands"
                 )
-                return colored.red(error)
+                self.output.append("1")
+                self.output.append(error)
+                return self.output 
+                
 
     def class_instance(self, cmd):
         try:

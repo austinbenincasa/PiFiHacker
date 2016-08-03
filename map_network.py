@@ -36,7 +36,14 @@ class map_network():
                     result = rcv.sprintf(r"%ARP.psrc% %Ether.src%").split()
                     hosts.append(result)
                 if len(hosts) == 0:
-                    return "No hosts found on network, check network range"
+                    output = []
+                    output.append("1")
+                    output.append("No hosts found on network, check network range")
+                    return output
                 return norm_class.normalize_network_map(hosts)
-            except Exception, e:
-                return e
+
+            except Exception:
+                output = []
+                output.append("1")
+                output.append(e)
+                return output

@@ -44,6 +44,7 @@ class normalize_output():
                 el["name"],
                 el["ssid"],
                 el["packets"]))
+        return
 
     def normalize_network_map(self, input):
         print(colored.blue("{:<20} {:<20}".format(

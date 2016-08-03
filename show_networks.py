@@ -31,7 +31,10 @@ class show_networks():
                 os.system("iwconfig " + var["-i"] + " mode managed")
                 os.system("sudo ifconfig " + var["-i"] + " up")
             except Exception:
-                return "Error: could not change interface settings"
+                output = []
+                output.append("1")
+                output.append("Error: could not change interface settings")
+                return error
             networks_info = []
             try:
                 wifi_list = Cell.all(var["-i"])
@@ -53,8 +56,14 @@ class show_networks():
                 return norm_class.normalize_wifi_table(networks_info)
 
             except Exception:
-                return "Cannot show networks on interface "
-                "'" + var["-i"] + "'"
+                output = []
+                output.append("1")
+                output.append("Cannot show networks on interface "
+                "'" + var["-i"] + "'")
+                return output
 
         else:
-            return "Error: Need to specifiy iface to listen on"
+            output = []
+            output.append("1")
+            output.append("Error: Need to specifiy iface to listen on")
+            return output

@@ -29,7 +29,10 @@ def main():
             readline.write_history_file(cmd_history)
             output = instance.proccess_command(cmd)
             if output is not None:
-                print(output)
+                if "1" == output[0]:
+                	puts(colored.red(output[1]))
+                else:
+                	puts(output)
         else:
             cmd = raw_input(colored.green("PiFiHacker:~$ "))
 
