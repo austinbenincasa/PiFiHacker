@@ -10,10 +10,8 @@ PORT_NUMBER = 80
 
 class login_server(BaseHTTPRequestHandler):
     # Handler for the GET requests
-
     def do_GET(self):
-        if self.path:
-            self.path = "/index.html"
+        self.path = "/index.html"
         try:
             # Check the file extension required and
             # set the right mime type
@@ -45,7 +43,9 @@ class login_server(BaseHTTPRequestHandler):
             return
 
         except IOError:
-            self.send_error(404, 'File Not Found: %s' % self.path)
+            self.send_response(301)
+            self.send_header('Location','http:10.0.0.1:80/')
+            self.end_headers()
 
     # Handler for the POST requests
     def do_POST(self):
@@ -65,7 +65,7 @@ class login_server(BaseHTTPRequestHandler):
 try:
     # Create a web server and define the handler to manage the
     # incoming request
-    server = HTTPServer(("10.0.0.2", PORT_NUMBER), login_server)
+    server = HTTPServer(("10.0.0.1", PORT_NUMBER), login_server)
     print'Started Login server on port ', PORT_NUMBER
     print("Waiting for response...")
     # Wait forever for incoming htto requests

@@ -82,31 +82,23 @@ class netspoof():
             os.system("sudo rfkill unblock all")
             os.system("sudo service dnsmasq restart")
             #os.system("sudo service hostapd start")
-            os.system("sudo hostapd -dd hostapd.conf")
-        except KeyboardInterrupt:
+            os.system("sudo hostapd hostapd.conf")
             os.system("sudo service dnsmasq stop")
             os.system("sudo service hostapd stop")
-            self.closenetspoof()
+            os.system('iptables -F')
+            os.system('iptables -X')
+            os.system('iptables -t nat -F')
+            os.system('iptables -t nat -X')
+            readFile = open("/etc/dnsmasq.conf")
 
+            lines = readFile.readlines()
 
-    def closenetspoof(self):
-        print("hello")
-        os.system('iptables -F')
-        os.system('iptables -X')
-        os.system('iptables -t nat -F')
-        os.system('iptables -t nat -X')
-        os.system('sudo pkill all hostapd')
-        readFile = open("/etc/dnsmasq.conf")
+            readFile.close()
+            w = open("/etc/dnsmasq.conf",'w')
 
-        lines = readFile.readlines()
+            w.writelines([item for item in lines[:-4]])
 
-        readFile.close()
-        w = open("/etc/dnsmasq.conf",'w')
+            w.close()
+        except KeyboardInterrupt, e:
+            return
 
-        w.writelines([item for item in lines[:-3]])
-
-        w.close()
-
-    def checklibs():
-        return
-        # checks if udhcpd and hostapd are both installed
