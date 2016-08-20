@@ -19,7 +19,7 @@ class map_network():
             "connected to a specified network.\n"
             "\nUsage:\n"
             "############\n"
-            "\n'map-network -n <network>'\n"
+            "\n'map-network -n <network range>'\n"
             "\n'map-network -n 192.168.1.*'\n"
         )
         return hlp

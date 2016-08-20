@@ -6,5 +6,7 @@ show-netifaces
 show-networks
 show-netstats
 wifi-data
+wifi-login
 ls
 help
+exit

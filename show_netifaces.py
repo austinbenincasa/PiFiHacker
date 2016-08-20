@@ -12,11 +12,7 @@ class show_netifaces():
         hlp = (
             "\nDescription:\n"
             "############\n"
-            "\nDefault command will show all avaliable netork interfaces,"
-            " the "
-            "command with the -v flag and a valid interface will show "
-            "that "
-            "interfaces details\n"
+            "\nDefault command will show all avaliable netork interfaces.\n"
             "\nUsage:\n"
             "############\n"
             "\n'show-netifaces'\n")

