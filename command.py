@@ -59,6 +59,7 @@ class command():
             commands.append(c)
         return norm_class.normalize_list(commands)
 
+
     # parses CLI input and proccess it
     def proccess_command(self, input):
         self.output = []
@@ -85,8 +86,8 @@ class command():
                 instance = self.class_instance(cmd)
                 if instance is None:
                     error = (
-                        "'" + input_list[0] + "'"
-                        " is a invalid command, use ls " +
+                        "'" + input_list[0][:25] + "'"
+                        " is a invalid command, use 'ls' " +
                         "to list avaliable commands"
                     )
                     self.output.append("1")
@@ -95,13 +96,13 @@ class command():
 
                 elif instance.req_var:
                         error = (
-                            "'" + input_list[0] + "'" +
+                            "'" + input_list[0][:25] + "'" +
                             " requires variables, use 'help <command>'" +
                             " for usage"
                         )
                         self.output.append("1")
                         self.output.append(error)
-                        return self.output 
+                        return self.command_length(er) 
 
                 run = getattr(instance, cmd)
                 output = run(pass_var)
@@ -113,8 +114,8 @@ class command():
                 if input_list[1] in command_dict:
                     return self.command_help(command_dict.get(input_list[1]))
                 error = (
-                    "'" + input_list[1] + "'" +
-                    " is a invalid command, use ls to list avaliable commands"
+                    "'" + input_list[1][:25] + "'" +
+                    " is a invalid command, use 'ls' to list avaliable commands"
                 )
                 self.output.append("1")
                 self.output.append(error)
@@ -127,10 +128,11 @@ class command():
                 # check is error in command
                 if instance is None:
                     error = (
-                        "'" + input_list[0] + "'"
+                        "'" + input_list[0][:25] + "'"
                         " command has a bug in it." +
-                        " Please report this to the author"
+                        " Please report it to the author"
                     )
+                    #maybe print out stack trace?
                     self.output.append("1")
                     self.output.append(error)
                     return self.output 
@@ -153,7 +155,7 @@ class command():
                                     var_val = ""
                                 elif el != "":
                                     error = (
-                                        "'" + el + "'" +
+                                        "'" + el[:25] + "'" +
                                         " is not a valid flag," +
                                         " use 'help <command>' for usage"
                                     )
@@ -177,7 +179,7 @@ class command():
                                     var_val = ""
                                 elif el != "":
                                     error = (
-                                        "'" + el + "'" +
+                                        "'" + el[:25] + "'" +
                                         " is not a valid flag," +
                                         " use 'help <command>' for usage"
                                     )
@@ -204,7 +206,7 @@ class command():
                                 var_val = ""
                             elif el != "":
                                 error = (
-                                    "'" + el + "'" +
+                                    "'" + el[:25] + "'" +
                                     " is not a valid flag," +
                                     " use 'help <command>' for usage"
                                 )
@@ -220,7 +222,7 @@ class command():
 
             else:
                 error = (
-                    "'" + input + "'"
+                    "'" + input[:25] + "'"
                     " is a invalid command, "
                     "use ls to list avaliable commands"
                 )
