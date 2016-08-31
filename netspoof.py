@@ -30,7 +30,7 @@ class netspoof():
                 os.system("sudo gnome-terminal -x sh -c 'sudo python login_server.py'")
                 cmd = 'sudo python deauth.py ' + var["-d"] + ' ' + var["-b"]
                 os.system("sudo gnome-terminal -x sh -c" + " '" + cmd + "'")
-                self.createAP(var["-s"], var["-a"], var["-c"], var["-b"])
+                self.createAP(var["-s"], var["-a"], var["-c"])
             except Exception:
                 error = []
                 error.append("1")
@@ -39,13 +39,10 @@ class netspoof():
         else:
             error = []
             error.append("1")
-            error.append("Error: Need to specifiy network to spoof")
+            error.append("Error: Need to specifiy a network to spoof")
             return error
 
-    def createAP(self, ssid, iface, channel, macspoof):
-        #os.system("sudo ifconfig " + iface + " down")
-        #os.system("sudo ifconfig " + iface + " hw ether " + macspoof)
-        #os.system("sudo ifconfig " + iface + " up")
+    def createAP(self, ssid, iface, channel):
         #time.sleep(2)
         os.system("sudo ifconfig " + iface + " 10.0.0.1 netmask 255.255.255.0")
 
@@ -95,7 +92,6 @@ class netspoof():
             os.system('iptables -t nat -F')
             os.system('iptables -t nat -X')
             os.system("sudo ifconfig " + iface + " down")
-            os.system("sudo ifconfig " + iface + " up")
             readFile = open("/etc/dnsmasq.conf")
 
             lines = readFile.readlines()
@@ -106,6 +102,7 @@ class netspoof():
             w.writelines([item for item in lines[:-4]])
 
             w.close()
+            os.system("sudo ifconfig " + iface + " up")
         except KeyboardInterrupt, e:
             return
 
