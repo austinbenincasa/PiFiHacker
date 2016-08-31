@@ -61,3 +61,11 @@ class normalize_output():
             print ("{:<25} {:<25}".format(
                 key,
                 val))
+
+    def normalize_network_scan(self, input):
+        print(colored.blue("{:<20} {:<30}".format(
+            'IP Address', 'Open Ports')))
+        for key, val in input.iteritems():
+            print ("{:<20} {:<30}".format(
+                key,
+                " ".join(map(str,val))))

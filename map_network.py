@@ -7,21 +7,23 @@ from scapy.all import *
 class map_network():
 
     def __init__(self):
-        self.req_var = True
+        self.req_var = False
         self.opt_var = True
-        self.req_variables = ["-n"]
-        self.opt_variables = ["-a"]
+        self.opt_variables = ["-i","-n"]
 
     def help(self):
         hlp = (
             "\nDescription:\n"
             "############\n"
             "\nThis command can be used to show all alive host currently "
-            "connected to a specified network.\n"
+            "connected to a specified network. Can also be used to show "
+            "which ports are open on a specified ip address\n"
             "\nUsage:\n"
             "############\n"
             "\n'map-network -n <network range>'\n"
-            "\n'map-network -n 192.168.1.*'\n"
+            "\n'ex. map-network -n 192.168.1.*'\n"
+            "\n'map-network -i <ip address>'\n"
+            "\n'ex. map-network -i 192.168.1.1'\n"
         )
         return hlp
 
@@ -37,6 +39,11 @@ class map_network():
     def map_network(self, var):
         norm_class = normalize_output()
         if "-n" in var:
+            if len(var) > 1:
+                output = []
+                output.append("1")
+                output.append("Error: To many flags. Can only accept one.")
+                return output
             try:
                 ans, unans = srp(
                     Ether(dst="ff:ff:ff:ff:ff:ff") /
@@ -58,34 +65,42 @@ class map_network():
                 output.append(e)
                 return output
 
-        if "-a" in var:
+        if "-i" in var:
+            scan = {}
+            if len(var) > 1:
+                output = []
+                output.append("1")
+                output.append("Error: To many flags. Can only accept one.")
+                return output
             try:
-                if self.is_up(var["-a"]):
+                if self.is_up(var["-i"]):
                     closed_ports = 0
                     open_ports = []
                     conf.verb = 0 # Disable verbose in sr(), sr1() methods
                     start_time = time.time()
-                    ports = range(1, 1024)
-                    print "Host %s is up, start scanning" % var["-a"]
+                    ports = [21,22,23,25,42,43,53,67,79,80,102,110,115,119,123,135,137,
+                            143,161,179,379,389,443,445,465,636,993,995,1025,1080,1090,
+                            1433,1434,1521,1677]
+                    print("Scan has started...")
+                    scan[var["-i"]] = []
                     for port in ports:
                         src_port = RandShort() # Getting a random port as source port
-                        p = IP(dst=var["-a"])/TCP(sport=src_port, dport=port, flags='S') # Forging SYN packet
+                        p = IP(dst=var["-i"])/TCP(sport=src_port, dport=port, flags='S') # Forging SYN packet
                         resp = sr1(p, timeout=2) # Sending packet
-                        if str(type(resp)) == "<type 'NoneType'>":
-                            closed_ports += 1
-                        elif resp.haslayer(TCP):
-                            if resp.getlayer(TCP).flags == 0x12:
-                                send_rst = sr(IP(dst=var["-a"])/TCP(sport=src_port, dport=port, flags='AR'), timeout=1)
-                                open_ports.append(port)
-                            elif resp.getlayer(TCP).flags == 0x14:
-                                closed_ports += 1
+                        if resp.getlayer(TCP).flags == 0x12:
+                            send_rst = sr(IP(dst=var["-i"])/TCP(sport=src_port, dport=port, flags='AR'), timeout=1)
+                            open_ports.append(port)
                     duration = time.time()-start_time
-                    print "%s Scan Completed in %fs" % (var["-a"], duration)
-                    if len(open_ports) != 0:
-                        for pop in open_ports:
-                            print "%d open" % pop
+                    if len(open_ports) == 0:
+                        scan[var["-i"]] = ["None"]
+                    else:
+                        scan[var["-i"]] = open_ports
+                    
+                    norm_class = normalize_output()
+                    return norm_class.normalize_network_scan(scan)
+                    print "%s Scan Completed in %fs" % (var["-i"], duration)
                 else:
-                    print "Host %s is Down" % var["-a"]
+                    print "Host %s is down" % var["-i"]
                             
             except Exception, e:
                 output = []
