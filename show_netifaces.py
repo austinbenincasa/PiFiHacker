@@ -21,18 +21,4 @@ class show_netifaces():
     def show_netifaces(self, var):
 
         norm_class = normalize_output()
-
-        # return specfic info about netiface
-        if "-i" in var:
-            try:
-                addrs = netifaces.ifaddresses(var["-i"])
-                return norm_class.normalize_json_list(addrs[netifaces.AF_INET])
-            except Exception,e:
-                output = []
-                output.append("1")
-                output.append("'" + var["-i"] + "'" + " is not a valid interface")
-                return output
-
-        # get all netifaces
-        else:
-            return norm_class.normalize_list(netifaces.interfaces())
+        return norm_class.normalize_list(netifaces.interfaces())
