@@ -1,4 +1,16 @@
-body {
+html,body {
 	text-align: center;
-	float: center;
+	margin: 0;
+	padding: 0;
+	height, width: 100%;
+	background-color: lightgray;
+}
+#login_box {
+	border: 1.5px solid black;
+	border-radius: 5px;
+	width: 35%;
+	padding: 3%;
+	margin: auto;
+	margin-top: 10%;
+	background-color: white;
 }
