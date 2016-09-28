@@ -41,7 +41,7 @@ class show_netstats():
                 output = []
                 output.append("1")
                 output.append("Error: Could put interface into Monitor Mode")
-                return error
+                return output
             try:
                 pkts = 1000
                 if "-c" in var:
@@ -53,7 +53,7 @@ class show_netstats():
                 output = []
                 output.append("1")
                 output.append("Error: Could not analyze networks")
-                return error
+                return output
         else:
             output = []
             output.append("1")
