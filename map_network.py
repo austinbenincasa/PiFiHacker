@@ -87,9 +87,12 @@ class map_network():
                         src_port = RandShort() # Getting a random port as source port
                         p = IP(dst=var["-i"])/TCP(sport=src_port, dport=port, flags='S') # Forging SYN packet
                         resp = sr1(p, timeout=2) # Sending packet
-                        if resp.getlayer(TCP).flags == 0x12:
-                            send_rst = sr(IP(dst=var["-i"])/TCP(sport=src_port, dport=port, flags='AR'), timeout=1)
-                            open_ports.append(port)
+                        if resp.getlayer(TCP) == "<type 'NoneType'>":
+                            pass
+                        elif resp.haslayer(TCP):
+                            if resp.getlayer(TCP).flags == 0x12:
+                                send_rst = sr(IP(dst=var["-i"])/TCP(sport=src_port, dport=port, flags='AR'), timeout=1)
+                                open_ports.append(port)
                     duration = time.time()-start_time
                     if len(open_ports) == 0:
                         scan[var["-i"]] = ["None"]
