@@ -102,7 +102,7 @@ class command():
                         )
                         self.output.append("1")
                         self.output.append(error)
-                        return self.command_length(er) 
+                        return self.output
 
                 run = getattr(instance, cmd)
                 output = run(pass_var)
