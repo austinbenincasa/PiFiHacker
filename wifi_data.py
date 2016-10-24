@@ -45,4 +45,4 @@ class wifi_data():
                 output = []
                 output.append("1")
                 output.append("Error: Hacked network data file not found")
-                return error
+                return output
