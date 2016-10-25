@@ -137,7 +137,7 @@ class command():
                     self.output.append(error)
                     return self.output 
                 # check if command needs variables
-                if instance.req_var:
+                elif instance.req_var:
                     req_variables = instance.req_variables
                     # can it take opt var too?
                     if instance.opt_var:
@@ -220,15 +220,15 @@ class command():
                     output = run(pass_var)
                     return output
 
-            else:
-                error = (
-                    "'" + input[:25] + "'"
-                    " is a invalid command, "
-                    "use ls to list avaliable commands"
-                )
-                self.output.append("1")
-                self.output.append(error)
-                return self.output 
+                elif:
+                    error = (
+                        "'" + input[:25] + "'"
+                        " does not take arguments, "
+                        "use use 'help' to view command usage"
+                    )
+                    self.output.append("1")
+                    self.output.append(error)
+                    return self.output 
                 
 
     def class_instance(self, cmd):
