@@ -1,6 +1,6 @@
 # PiFiHacker
 
-Is a python 2.7 CLI program developed to penetrate wifi networks. PiFiHacker stands up a Evil Twin used to decieve a unsuspecting victim. The tool is currently only been tested on Ubuntu 16.04 using python 2.7. May work on other linux distros but is not compatiable with Windows.
+Is a python 2.7 CLI program developed to penetrate wifi networks. PiFiHacker stands up a Evil Twin Access Point which is used to decieve a unsuspecting victim network. The tool is currently only been tested on Ubuntu 16.04 using python 2.7. May work on other linux distros but is not compatiable with Windows.
 
 ### Example Commands:
 - show-netifaces
