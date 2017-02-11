@@ -1,5 +1,5 @@
 import netifaces
-from normalize_output import normalize_output
+from core.normalize_output import normalize_output
 
 
 class show_netifaces():

@@ -1,6 +1,6 @@
 from clint.textui import colored, puts
-from command import command
-from setup import setup
+from core.command import command
+from core.setup import setup
 import readline
 import os
 

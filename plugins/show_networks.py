@@ -1,6 +1,6 @@
 from wifi import Cell
 import os
-from normalize_output import normalize_output
+from core.normalize_output import normalize_output
 
 
 class show_networks():

@@ -1,4 +1,4 @@
-from normalize_output import normalize_output
+from core.normalize_output import normalize_output
 
 
 class wifi_data():

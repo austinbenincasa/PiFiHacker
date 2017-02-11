@@ -9,11 +9,10 @@ class command():
 
     def __init__(self):
         self.output = []
-        pass
 
     def command_list(self):
         commands = []
-        with open('command_list.txt') as f:
+        with open('core/command_list.txt') as f:
             cmd = f.read().splitlines()
         for c in cmd:
             commands.append(c)
@@ -21,7 +20,7 @@ class command():
 
     def get_command_list(self):
         commands = {}
-        with open('command_list.txt') as f:
+        with open('core/command_list.txt') as f:
             cmd = f.read().splitlines()
         for c in cmd:
             cmd = str(c.replace("-", "_"))
@@ -41,7 +40,6 @@ class command():
 
     # outputs command help
     def command_help(self, cmd):
-        self.output = []
         instance = self.class_instance(cmd)
         try:
             run = getattr(instance, "help")
@@ -220,7 +218,7 @@ class command():
                     output = run(pass_var)
                     return output
 
-                elif:
+                else:
                     error = (
                         "'" + input[:25] + "'"
                         " does not take arguments, "
@@ -233,7 +231,7 @@ class command():
 
     def class_instance(self, cmd):
         try:
-            module = importlib.import_module(cmd)
+            module = importlib.import_module("plugins." + cmd)
             instance = getattr(module, cmd)()
             return instance
         except Exception:
